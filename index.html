@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروپوزال جامع خدمات برندینگ و دیجیتال مارکتینگ - باغ تالار فرهنگ</title>
+    <!-- لود کتابخانه نمودار Chart.js برای خروجی تعاملی و مدرن -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap');
+
+        :root {
+            --bg-dark: #0a0b0d;
+            --card-dark: #12141c;
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --text-main: #f5f6f8;
+            --text-muted: #a0a5b5;
+            --border-glow: rgba(212, 175, 55, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* هدر فوق لوکس و آوانگارد */
+        header {
+            text-align: center;
+            padding: 80px 30px;
+            background: linear-gradient(135deg, #161824 0%, #0a0b0d 100%);
+            border-radius: 30px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 40px var(--gold-glow);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            border-radius: 30px 30px 0 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .meta-tag {
+            color: var(--text-muted);
+        }
+
+        .meta-tag strong {
+            color: var(--gold-light);
+        }
+
+        /* تیتر بخش‌ها */
+        .section-header {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            margin: 60px 0 30px 0;
+            padding-right: 15px;
+            border-right: 4px solid var(--gold-primary);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* بخش نمودارها */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .chart-card {
+            background-color: var(--card-dark);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart-card h4 {
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            position: relative;
+            height: 300px;
+        }
+
+        /* کارت خدمات */
+        .service-card {
+            background-color: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+        }
+
+        .service-card:hover::after {
+            opacity: 1;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .service-number {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--bg-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .scientific-box {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-right: 3px solid var(--gold-primary);
+            padding: 20px;
+            border-radius: 4px 12px 12px 4px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        .scientific-box strong {
+            color: var(--gold-light);
+        }
+
+        /* بخش کادو پیشنهادات افزوده */
+        .bonus-container {
+            background: linear-gradient(145deg, #131722 0%, #0d0f16 100%);
+            border: 1px dashed var(--gold-primary);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 60px 0;
+            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
+        }
+
+        .bonus-header {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .bonus-item {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .bonus-item-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+        }
+
+        /* استایل جدول قیمت گذاری */
+        .pricing-section {
+            margin-top: 80px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background-color: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 45px 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card.premium-tier {
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+            transform: scale(1.03);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
+            color: var(--bg-dark);
+            padding: 6px 24px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-name {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .pricing-price {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            margin: 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 25px;
+        }
+
+        .pricing-price span {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: right;
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .pricing-features li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .pricing-features li::before {
+            content: "✦";
+            position: absolute;
+            right: 0;
+            color: var(--gold-primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .pricing-card.premium-tier {
+                transform: scale(1);
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .header-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- هدر پروپوزال -->
+    <header>
+        <h1>پروپوزال جامع خدمات برندینگ و دیجیتال مارکتینگ</h1>
+        <div class="header-meta">
+            <div class="meta-tag">آماده شده برای: <strong>مدیریت محترم مجموعه باغ تالار فرهنگ (تهران)</strong></div>
+            <div class="meta-tag">مجری: <strong>جناب آقای کمال تسبیحی | شرکت ساویس ستیا</strong></div>
+        </div>
+    </header>
+
+    <!-- بخش اول -->
+    <div class="section-header">بخش اول: هویت بصری، برندینگ و زیرساخت اداری</div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۱</span>
+            طراحی لوگو موشن برای ویدیوها یا استفاده‌های تبلیغاتی
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> طبق گزارش HubSpot، ویدیوهایی که دارای هویت و لوگوی متحرک (Logo Motion) در ثانیه‌های آغازین هستند، میزان یادآوری برند (Brand Recall) را تا ۸۵٪ افزایش می‌دهند. در حوزه تشریفات و باغ‌تالار، ثانیه‌های اول ویدیوهای اینستاگرام برای جذب عروس و دامادها حیاتی است.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲</span>
+            طراحی و تدوین برندبوک و پالت رنگی و فونت‌ها و...
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> تحقیقات مؤسسه Colorcom نشان می‌دهد که رنگ‌های سازمانی یکپارچه، شناسایی برند را تا ۸۰٪ ارتقا می‌دهند. برندبوک به باغ تالار فرهنگ کمک می‌کند در تمام خروجی‌های فیزیکی و دیجیتال، یکپارچگی و حس لوکس بودن را به مخاطب القا کند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۳</span>
+            مرمت برند در فضای مجازی و دیجیتال و وبسایت شخصی از نظر ظاهری (ساخت پالت رنگی، ساخت هایلایت‌ها، ساخت کاور پست‌ها و هارمونی بین برند با فضاهای مجازی و دیجیتال)
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> در صنعت باغ تالار، تصمیم‌گیری‌ها بر پایه احساسات و زیبایی‌شناسی است. بر اساس آمارهای Instagram Business، بیش از ۶۰٪ کاربران پس از ورود به یک صفحه با ظاهر شلخته و بی‌هارمونی، فوراً آن را ترک می‌کنند. مرمت و یکپارچه‌سازی بصری، نرخ فرار مخاطب (Bounce Rate) را در شبکه‌های اجتماعی به شدت کاهش می‌دهد.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۴</span>
+            طراحی و اجرا کارت ویزیت، سربرگ و ست اداری
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> طبق تحقیقات انجمن بازاریابی آمریکا (AMA)، در کسب‌وکارهای لوکس و خدمات گران‌قیمت (مانند تالار پذیرایی)، لمس فیزیکی متریال باکیفیت (مانند کارت ویزیت و سربرگ خاص) حس اعتماد و اصالت برند را تا ۷۲٪ در ذهن مشتریان حضوری افزایش می‌دهد.
+        </div>
+    </div>
+
+    <!-- بخش دوم -->
+    <div class="section-header">بخش دوم: حضور بین‌المللی و بهینه‌سازی وب‌سایت</div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۵</span>
+            ثبت رستوران در سایت‌های رفرال محلی و کشوری بازار هدف
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> با توجه به پتانسیل جذب توریست، مشتریان محلی و رویدادهای بین‌المللی/ملی، حضور در دایرکتوری‌های شهری و کشوری مربوطه به عنوان یک کانال جذب قدرتمند عمل می‌کند. آمارهای TripAdvisor نشان می‌دهد که ۸۹٪ مسافران و مشتریان قبل از انتخاب محل پذیرایی یا برگزاری رویدادهای خانوادگی، از سایت‌های رفرال محلی برای بررسی اعتبار و موقعیت استفاده می‌کنند..
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۶</span>
+            طراحی وبسایت یا بازسازی مجدد وبسایت و ایجاد تغییرات ظاهری سایت و اعمال تغییرات روی سایت (رنگ سازمانی و لوگو و فونت و مطالب وبسایت و نقشه و....)
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> بر اساس تحقیقات دانشگاه استنفورد، ۷۵٪ از کاربران، اعتبار یک کسب‌وکار را بر اساس طراحی وب‌سایت آن قضاوت می‌کنند. بازسازی وب‌سایت باغ تالار فرهنگ با نقشه دقیق و رنگ سازمانی، به مشتریان این اطمینان را می‌دهد که با مجموعه‌ای حرفه‌ای و به‌روز طرف هستند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۷</span>
+            ده مقاله سئو پذیر در ماه
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> طبق آمار Backlinko، کسب‌وکارهایی که به طور منظم وبلاگ‌نویسی سئوشده انجام می‌دهند، ۵۵٪ بازدیدکننده بیشتری در وب‌سایت خود دریافت می‌کنند. مقالاتی با موضوعاتی نظیر «بهترین باغ تالارهای تهران»، «چک‌لیست برگزاری عروسی» و... مخاطب هدفِ آماده به خرید را مستقیماً از گوگل به سمت تالار فرهنگ هدایت می‌کند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۸</span>
+            عکاسی و تصویربرداری ویدیویی از رستوران به صورت ماهانه
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> در صنعت تشریفات، تصویر همه چیز است. آمارها نشان می‌دهد پست‌های حاوی تصاویر باکیفیت و واقعی (نه دانلودی)، ۶۵۰٪ بیشتر از پست‌های متنی ساده تعامل (Engagement) ایجاد می‌کنند. عکاسی منظم ماهانه، تغییرات فصلی باغ تالار و کیفیت منوهای غذایی را به بهترین شکل به نمایش می‌گذارد.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۹</span>
+            بهینه سازی سایت و نصب پلاگین‌های مرتبط و لایسنس‌های اورجینال روی سایت به صورت ماهانه (پشتیبانی وبسایت)
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> طبق گزارش Google، اگر لود شدن یک وب‌سایت بیش از ۳ ثانیه طول بکشد، ۵۳٪ کاربران موبایل آن را ترک می‌کنند. بهینه‌سازی مداوم، امنیت و سرعت سایت باغ تالار را تضمین کرده و مانع هک شدن یا از دست رفتن اطلاعات مشتریان می‌شود.
+        </div>
+    </div>
+
+    <!-- بخش سوم -->
+    <div class="section-header">بخش سوم: سوشال مدیا و مدیریت شبکه‌های اجتماعی</div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۱۰</span>
+            ساخت ۱۵ پست و ریلز و تریال اینستاگرام و تیک تاک به صورت ماهانه
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> الگوریتم‌های جدید اینستاگرام و تیک‌تاک به شدت بر روی فرمت ریلز (و ویدیوهای کوتاه) تمرکز دارند. طبق آمار رسمی Meta، ریلزها تا ۲ برابر بیشتر از پست‌های معمولی دسترسی (Reach) ایجاد می‌کنند. این یعنی دیده شدن باغ تالار فرهنگ توسط مخاطبانی که هنوز صفحه شما را فالو نکرده‌اند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۱۱</span>
+            ساخت ۱۰۰ عدد استوری اینستاگرام به صورت ماهانه
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> استوری‌ها ابزار اصلی «فروش و ارتباط روزانه» هستند. آمارها نشان می‌دهد ۵۰۰ میلیون کاربر روزانه از استوری‌ها بازدید می‌کنند و ۵۸٪ آن‌ها می‌گویند بعد از دیدن یک برند در استوری، به خدمات آن علاقه‌مند شده‌اند. استوری‌های مداوم، پشت‌صحنه آماده‌سازی تالار و رضایت مشتریان را به تصویر می‌کشند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۱۲</span>
+            مدیریت و ادمینی و گزارش دهی صفحات اینستاگرام، و وبسایت و تیک تاک به صورت ماهانه
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> پاسخ‌گویی سریع به دایرکت‌ها و کامنت‌ها (زیر ۵ دقیقه)، شانس تبدیل مخاطب به مشتری حضوری را تا ۲۱ برابر نسبت به پاسخ‌گویی با تأخیر (مثلاً ۳۰ دقیقه‌ای) افزایش می‌دهد (تحقیقات Harvard Business Review). گزارش‌دهی ماهانه نیز به کارفرمای تالار فرهنگ اجازه می‌دهد روند رشد سئو و سوشال مدیا را به صورت کاملاً شفاف و مستند (با آمار دقیق) ارزیابی کند.
+        </div>
+    </div>
+
+    <!-- بخش چهارم -->
+    <div class="section-header">بخش چهارم: مشاوره، کمپین و سیستم‌های ارتباطی (CRM)</div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۱۹</span>
+            مشاوره و جلسات مشاوره در هر ماه ۴ ساعت برای تبلیغات و برندینگ فضای مجازی و بهبود فعالیت
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> هدایت بودجه‌های تبلیغاتی بدون مشورت تخصصی، هدررفت بالای ۵۰ درصد بودجه را در پی دارد. این جلسات ۴ ساعته ماهانه، با بازبینی روندهای بازار عروسی و تشریفات در تهران، تضمین می‌کند که استراتژی‌های ساویس ستیا همگام با نیازهای روز باغ تالار فرهنگ جلو برود.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲۰</span>
+            طراحی و مشاوره کمپین تبلیغاتی در انتها ماه سوم
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> تحقیقات نشان می‌دهد کمپین‌های تبلیغاتیِ چندکاناله (Multi-channel) که پس از ایجاد زیرساخت‌های اولیه (سایت و سوشال قوی در ۳ ماه اول) اجرا می‌شوند، تا ۳۰۰٪ بازگشت سرمایه (ROI) بیشتری نسبت به تبلیغات بدون زیرساخت دارند. پایان ماه سوم، زمان طلایی برای شروع این کمپین است.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲۱</span>
+            مشاوره و بستر سازی سیستم CRM
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> طبق آمار Nucleus Research، هر ۱ دلاری که برای سیستم مدیریت ارتباط با مشتری (CRM) هزینه شود، به‌طور میانگین ۸.۸ دلار بازگشت سرمایه دارد. CRM به باغ تالار فرهنگ کمک می‌کند تا تاریخ تولد، سالگرد ازدواج, اطلاعات تماس مشتریان و وضعیت قراردادها را ثبت کند و سیستم پیگیری (Follow-up) منظم برای عروس و دامادهای بالقوه ایجاد کند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲۲</span>
+            مشاوره و بسترسازی SMS مارکتینگ
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> اس‌ام‌اس مارکتینگ یکی از بالاترین نرخ‌های باز شدن پیام (۹۸٪) را در مقایسه با تمام کانال‌های دیجیتال دارد. با اتصال SMS مارکتینگ به سیستم CRM، پیام‌های شخصی‌سازی‌شده و تبریکات در زمان‌های مناسب برای مشتریان ارسال می‌شود که وفاداری به برند را به شدت بالا می‌برد.
+        </div>
+    </div>
+
+    <!-- بخش پنجم -->
+    <div class="section-header">بخش پنجم: بازاریابی استراتژیک و مدیریت ظرفیت خالی (Off-Season)</div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲۳</span>
+            بازاریابی و تبلیغات و محتوا سازی برای زمان‌هایی که مراسم عروسی نیست و به اصطلاح آف سیزن هستش برای برگزاری مراسمات دیگر اعم از کسب و کاری و مذهبی و اقتصادی
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> درآمدزایی پایدار (Sustainable Revenue) چالش اصلی باغ تالارها در فصول پاییز و زمستان یا ایام خاص است. تبدیل کاربری تالار به فضایی برای سمینارها، همایش‌های شرکتی، معرفی محصول (Product Launch) و مراسم‌های مذهبی با استراتژی محتوایی هدفمند، می‌تواند تا ۴۰٪ از کاهش درآمدهای فصلی تالار فرهنگ جلوگیری کند.
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-title">
+            <span class="service-number">۲۴</span>
+            سفارش‌گیری از شرکت‌ها و ادارات به عنوان مشتری سازمانی برای پر کردن ظرفیت خالی آشپزخانه رستوران
+        </div>
+        <div class="scientific-box">
+            <strong>توجیه علمی و آماری:</strong> حاشیه سود آشپزخانه باغ تالارها در صورت فعال بودن مداوم، بسیار بالاتر می‌رود. بازاریابی B2B (کسب‌وکار به کسب‌وکار) و ارائه پکیج‌های غذای سازمانی به ادارات و شرکت‌های بزرگ تهران، هزینه‌های ثابت آشپزخانه را پوشش داده و جریان نقدی (Cash Flow) روزانه و پایداری برای تالار ایجاد می‌کند.
+        </div>
+    </div>
+
+    <!-- بخش تحلیل داده‌ها و نمودارهای چهارگانه -->
+    <div class="section-header">بخش تحلیل آماری و شاخص‌های کلیدی پروژه (KPI & KDI)</div>
+    <div class="charts-container">
+        
+        <!-- نمودار ۱: توزیع خدمات -->
+        <div class="chart-card">
+            <h4>۱. توزیع و تمرکز خدمات پروپوزال (۲۴ بند خدمات)</h4>
+            <div class="chart-wrapper">
+                <canvas id="donutChart"></canvas>
+            </div>
+        </div>
+
+        <!-- نمودار ۲ جدید: KPI رشد تعداد سرنخ‌های ورودی و درخواست‌های بازدید حضوری -->
+        <div class="chart-card">
+            <h4>۲. شاخص کلیدی عملکرد (KPI): روند صعودی ثبت لید و رزرو بازدید حضوری تالار</h4>
+            <div class="chart-wrapper">
+                <canvas id="kpiLineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- نمودار ۳: قدرت تعامل ویدیو کوتاه -->
+        <div class="chart-card">
+            <h4>۳. میانگین نرخ تعامل (Engagement) ریلز در برابر پست استاندارد</h4>
+            <div class="chart-wrapper">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- نمودار ۴ جدید: KDI اهداف کیفی و استانداردهای تحویل پروژه ساویس ستیا -->
+        <div class="chart-card">
+            <h4>۴. شاخص‌های کلیدی تحویل پروژه (KDI) - سنجش استانداردهای کیفی ساویس ستیا</h4>
+            <div class="chart-wrapper">
+                <canvas id="kdiRadarChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- پیشنهادهای تخصصی شرکت ساویس ستیا -->
+    <div class="bonus-container">
+        <div class="bonus-header">پیشنهادهای تخصصی و افزوده شرکت «ساویس ستیا» به باغ تالار فرهنگ</div>
+        
+        <p style="color: var(--text-muted); margin-bottom: 30px; text-align: center;">
+            جناب تسبیحی، برای اینکه پروپوزال شما جذاب‌تر و بی‌رقیب شود، پیشنهاد می‌کنم این چند مورد ارزش‌افزوده تخصصی را نیز به عنوان آفر ویژه مطرح کنید:
+        </p>
+
+        <div class="bonus-item">
+            <div class="bonus-item-title">طراحی تور مجازی ۳۶۰ درجه (Virtual Tour) برای وب‌سایت</div>
+            <p style="color: var(--text-muted);">باغ تالار فضایی دیدنی است. داشتن یک تور مجازی باکیفیت روی سایت به مشتریان (به‌خصوص کسانی که فرصت بازدید حضوری اولیه را ندارند یا در خارج از تهران هستند) اجازه می‌دهد تمام زوایای تالار و باغ را به صورت آنلاین تماشا کنند. این کار نرخ تبدیل سایت را تا ۴۰٪ افزایش می‌دهد.</p>
+        </div>
+
+        <div class="bonus-item">
+            <div class="bonus-item-title">طراحی کاتالوگ دیجیتال و هوشمند (Smart PDF)</div>
+            <p style="color: var(--text-muted);">به جای فرستادن لیست قیمت‌های ساده در واتس‌اپ یا تلگرام، یک کاتالوگ دیجیتال تعاملی، شیک و قابل‌کلیک برای منوها و پکیج‌های عروسی طراحی کنید تا پرستیژ کار کاملاً حفظ شود.</p>
+        </div>
+
+        <div class="bonus-item">
+            <div class="bonus-item-title">پیاده‌سازی سیستم رزرو آنلاین وقت بازدید حضوری</div>
+            <p style="color: var(--text-muted);">اضافه کردن یک ماژول ساده به وب‌سایت که عروس و دامادها بتوانند برای بازدید حضوری از تالار، روز و ساعت مشخصی را رزرو کنند؛ این کار هماهنگی‌های داخلی تالار فرهنگ را بسیار آسان‌تر می‌کند.</p>
+        </div>
+    </div>
+
+    <!-- پلن‌های سرمایه گذاری جدید بر اساس کیفیت پیاده‌سازی -->
+    <section class="pricing-section">
+        <div class="section-header" style="text-align: center; border: none; padding: 0;">ساختار و سطوح کیفی سرمایه‌گذاری (Monthly Packages)</div>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 50px;">ما هیچ خدمتی را حذف نمی‌کنیم؛ بلکه در ۳ سطح کیفی و ساختار اجرایی متفاوت آن را تقدیم حضورتان می‌کنیم.</p>
+        
+        <div class="pricing-grid">
+            
+            <!-- اکونومی -->
+            <div class="pricing-card">
+                <div>
+                    <div class="pricing-name">اکونومی (استاندارد)</div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">مناسب حفظ حضور فعال برند در وب و شبکه‌های اجتماعی</p>
+                    <div class="pricing-price">۳۰,۰۰۰,۰۰۰ <span>تومان / ماهانه</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>اجرای تمام ۲۴ بند خدمات بدون حذف کلمات</li>
+                    <li>تولید و عکاسی بر بستر موبایل‌گرافی نیمه‌حرفه‌ای</li>
+                    <li>طراحی قالب پست و استوری بر بستر فرمت‌های آماده استاندارد</li>
+                    <li>پشتیبانی وب‌سایت به صورت هفتگی و برطرف‌سازی خطاها</li>
+                    <li>تیم اجرایی: طراحان جونیور و ادمین‌های پایه تحت نظارت مستقیم ساویس ستیا</li>
+                </ul>
+            </div>
+
+            <!-- پلاس -->
+            <div class="pricing-card premium-tier">
+                <div class="pricing-badge">بیشترین انتخاب</div>
+                <div>
+                    <div class="pricing-name" style="color: var(--gold-primary);">پلاس (تخصصی)</div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">ارائه ساختار باکیفیت و نرخ بازگشت سرمایه ایده‌آل</p>
+                    <div class="pricing-price">۵۴,۰۰۰,۰۰۰ <span>تومان / ماهانه</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>اجرای تمام ۲۴ بند خدمات با رویکرد توسعه برند</li>
+                    <li>عکاسی و سناریونویسی ویدیویی حرفه‌ای (دوربین عکاسی و تجهیزات نورپردازی پرتابل)</li>
+                    <li>طراحی اختصاصی هویت بصری، کاورها و پالت رنگی هماهنگ</li>
+                    <li>پشتیبانی پیشرفته سایت و بررسی سئو تخصصی مداوم</li>
+                    <li>تیم اجرایی: کارشناسان ارشد دیجیتال مارکتینگ و تولیدکنندگان محتوای خلاق</li>
+                </ul>
+            </div>
+
+            <!-- پریمیوم -->
+            <div class="pricing-card">
+                <div>
+                    <div class="pricing-name">پریمیوم (لوکس و آوانگارد)</div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">بالاترین کلاس هنری و تصویرسازی سلطنتی برند</p>
+                    <div class="pricing-price">۷۲,۰۰۰,۰۰۰ <span>تومان / ماهانه</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>اجرای ۲۴ بند خدمات با کیفیت سینمایی و هنری استثنایی</li>
+                    <li>فیلمبرداری و عکاسی با تجهیزات سینمایی حرفه‌ای (نورپردازی استودیویی و پهپاد حرکتی)</li>
+                    <li>طراحی هویت آوانگارد، کاتالوگ لوکس و وب‌سایت VIP سفارشی</li>
+                    <li>مدیریت کمپین‌های تخصصی، بسترسازی اختصاصی عمیق CRM و سیستم SMS</li>
+                    <li>تیم اجرایی: تاپ‌ترین کارگردانان، عکاسان، طراحان و مدیریت مستقیم جناب کمال تسبیحی</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>موفقیت، در تلاقی هنر و استراتژی نهفته است.</p>
+        <p style="color: var(--gold-primary); margin-top: 15px; font-weight: bold;">توسعه یافته توسط هولدینگ مارکتینگ و برندینگ ساویس ستیا | ۱۴۰۵</p>
+    </footer>
+
+</div>
+
+<script>
+    // تنظیم فونت و رنگ پیش‌فرض برای تمامی نمودارها جهت هماهنگی با ظاهر لوکس پروپوزال
+    Chart.defaults.font.family = 'Vazirmatn';
+    Chart.defaults.color = '#f5f6f8';
+
+    // ۱. نمودار دایره‌ای (Donut) سهم گروه‌بندی خدمات ۲۴ گانه
+    const ctxDonut = document.getElementById('donutChart').getContext('2d');
+    new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+            labels: ['برندینگ و هویت بصری', 'سئو و وب‌سایت', 'سوشال مدیا', 'سیستم‌های ارتباطی و CRM', 'بازاریابی آف‌سیزن و سازمانی'],
+            datasets: [{
+                data: [4, 5, 3, 4, 8],
+                backgroundColor: ['#d4af37', '#f3e5ab', '#1f2833', '#c5a880', '#e5c583'],
+                borderWidth: 1,
+                borderColor: '#0a0b0d'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { boxWidth: 12, padding: 15 }
+                }
+            }
+        }
+    });
+
+    // ۲. جدید - نمودار خطی (Line) - شاخص کلیدی عملکرد (KPI): روند تولید لید و درخواست بازدید تالار
+    const ctxKpiLine = document.getElementById('kpiLineChart').getContext('2d');
+    new Chart(ctxKpiLine, {
+        type: 'line',
+        data: {
+            labels: ['ماه اول', 'ماه دوم', 'ماه سوم', 'ماه چهارم', 'ماه پنجم', 'ماه ششم'],
+            datasets: [{
+                label: 'تعداد سرنخ‌های کیفی ورودی (ثبت نام/تماس مستقیم جهت هماهنگی تالار)',
+                data: [15, 28, 55, 95, 145, 210],
+                borderColor: '#d4af37',
+                backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // ۳. نمودار میله‌ای (Bar) مقایسه نرخ تعامل ریلز در برابر پست معمولی
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['پست تصویری ساده', 'پست آلبومی', 'ویدیو کوتاه (Reels/TikTok)'],
+            datasets: [{
+                label: 'میانگین نرخ تعامل و بازدید (%)',
+                data: [3.2, 5.8, 14.5],
+                backgroundColor: ['#1f2833', '#c5a880', '#d4af37'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // ۴. جدید - نمودار رادار (Radar) - شاخص‌های کلیدی تحویل پروژه (KDI) ساویس ستیا
+    const ctxKdiRadar = document.getElementById('kdiRadarChart').getContext('2d');
+    new Chart(ctxKdiRadar, {
+        type: 'radar',
+        data: {
+            labels: [
+                'تعهد زمان‌بندی و انتشار (SLA)',
+                'شاخص کیفیت هنری و بصری',
+                'سرعت پاسخ‌گویی به دایرکت و لیدها',
+                'پایداری فنی و لایسنس وب‌سایت',
+                'دقت گزارش‌دهی و تحلیل ماهانه آمار'
+            ],
+            datasets: [
+                {
+                    label: 'هدف تحویل ساویس ستیا (KDI %)',
+                    data: [98, 95, 99, 97, 100],
+                    borderColor: '#d4af37',
+                    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#d4af37'
+                },
+                {
+                    label: 'میانگین استانداردهای بازار وب',
+                    data: [70, 65, 55, 75, 50],
+                    borderColor: '#1f2833',
+                    backgroundColor: 'rgba(31, 40, 51, 0.2)',
+                    borderWidth: 1,
+                    pointBackgroundColor: '#1f2833'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255, 255, 255, 0.05)' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    pointLabels: { color: '#f5f6f8', font: { size: 10 } },
+                    ticks: { display: false }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
